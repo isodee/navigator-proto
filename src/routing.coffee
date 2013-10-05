@@ -557,7 +557,7 @@ render_route_layer = (itinerary, routeLayer) ->
                 icon = L.divIcon({className: "navigator-div-icon"})
                 console.info("----- STOPPIA -----")
                 console.info(stop)
-                label = "<span style='font-size: 24px;'><img src='static/images/#{google_icons[leg.routeType ? leg.mode]}' style='vertical-align: sub; height: 24px'/><span>#{leg.route} #{ if leg.mode == "BUS" then "<a data-transition='pop' data-rel='dialog' stop-id=#{stop.stopCode} href='#stop-query' >Stop #{  stop.stopCode 
+                label = "<span style='font-size: 24px;'><img src='static/images/#{google_icons[leg.routeType ? leg.mode]}' style='vertical-align: sub; height: 24px'/><span>#{leg.route} #{ if leg.mode == "BUS" then "<a data-transition='pop' data-rel='dialog' stop-id=#{stop.stopCode} href='#stop-query' onclick='set_selected_stop(#{stop.stopCode})'>Stop #{  stop.stopCode 
  }</a>" else ""  } </span></span>"
 
                 # Define function to calculate the transit arrival time and update the element
