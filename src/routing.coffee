@@ -24,6 +24,9 @@ vehicles = []
 previous_positions = []
 interpolations = []
 
+# Last user selected stop for timetable stop-query page
+citynavi.recent_stop = null
+
 ## Events before a page is shown
 
 # set a class on the html root element based on the active page, for css use
@@ -552,7 +555,10 @@ render_route_layer = (itinerary, routeLayer) ->
                 last_stop = leg.to
                 point = {y: stop.lat, x: stop.lon}
                 icon = L.divIcon({className: "navigator-div-icon"})
-                label = "<span style='font-size: 24px;'><img src='static/images/#{google_icons[leg.routeType ? leg.mode]}' style='vertical-align: sub; height: 24px'/><span>#{leg.route}</span></span>"
+                console.info("----- STOPPIA -----")
+                console.info(stop)
+                label = "<span style='font-size: 24px;'><img src='static/images/#{google_icons[leg.routeType ? leg.mode]}' style='vertical-align: sub; height: 24px'/><span>#{leg.route} #{ if leg.mode == "BUS" then "<a data-transition='pop' data-rel='dialog' stop-id=#{stop.stopCode} href='#stop-query' >Stop #{  stop.stopCode 
+ }</a>" else ""  } </span></span>"
 
                 # Define function to calculate the transit arrival time and update the element
                 # that has uid specific to this leg once per second by calling this function
