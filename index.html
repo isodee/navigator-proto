@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="static/css/leaflet.css" />
         <link type="text/css" rel="stylesheet" href="static/css/leaflet.label.css" />
         <link rel="stylesheet" href="static/css/main.css" />
+        <link rel="stylesheet" href="static/css/localroute.css" />
         <link rel="stylesheet" href="static/css/leaflet.awesome-markers.css" />
         <style>
             /* Hide all the app pages until jQuery Mobile inits to
@@ -249,7 +250,18 @@
 		<h1>Stop timetable: <span id="stop-query-header" /></h1>
 	   </div>
 	   <div data-role="content">
-		<div id="stop-query-content" />
+		<div id="stop-query-content" >
+		   <table class="stop"> 
+ 		     <thead>
+			<tr>
+                          <th>Time</th> 
+                          <th>Departure</th>
+                        </tr>
+		     </thead>
+		     <tbody id="stop-query-content-rows">
+
+		     </tbody>
+		</div>
 	   </div>
  	</div>
         <script src="static/js/jquery-1.8.3.min.js"></script>

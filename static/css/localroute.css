@@ -1,0 +1,20 @@
+
+.stop { 
+  background-color: white;
+}
+
+.stop-hour-times { 
+
+ }
+
+.stop-hour-times ul { 
+  overflow-x:hidden;
+  white-space:nowrap; 
+  height: 1em;
+  width: 100%;
+} 
+
+.stop-hour-times li
+{ 
+  display:inline; 
+} 
