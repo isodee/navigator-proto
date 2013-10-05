@@ -8,17 +8,88 @@ class LocalRouteUI
  
 
 window.set_selected_stop = LocalRouteUI.set_selected_stop
+ 
+`
+var jaba = [  
+  { "110":  [ 
+   {  "time":  "10:23" },
+   {  "time":  "10:24" },
+   {  "time":  "10:25" } ] },
+  { "112":  [
+   { "time":  "11:25" }
+   ] }
+  ];
 
-test = () -> 
-   tmp = "Xxxxxxxx xxxxxxxx xxxxxxxx" 
-   tmp = tmp + tmp + tmp + tmp
-   tmp = tmp + tmp + tmp + tmp
-   tmp = tmp + tmp + tmp + tmp
-   tmp = tmp + tmp + tmp + tmp
+// parse format from:
+//
+//[  
+//  { "110":  [ 
+//   {  "time":  "10:23" },
+//   {  "time":  "10:24" },
+//   {  "time":  "10:25" } ] },
+//  { "112":  [
+//   { "time":  "11:25" }
+//   ] }
+//  ];
+// to 
+// [ { "10", [ "23/110, "24/110", "25/110" ]}
+//   { "11", [ "25/112" ] },
+//   { "12", [ ] }
 
+if(!Object.keys) Object.keys = function(o){
+     if (o !== Object(o))
+          throw new TypeError('Object.keys called on non-object');
+     var ret=[],p;
+     for(p in o) if(Object.prototype.hasOwnProperty.call(o,p)) ret.push(p);
+     return ret;
+}
+
+function convert(timetable, optFilters) {
+  var list = [];
+  
+  // TODO: first filter only wanted lines  
+
+  var res = {}
+  for(i = 0; i<24; i++) {
+    res[i] = []
+  }
+  
+  timetable.forEach(function(tt) {
+      var line = Object.keys(tt)[0]
+      tt[line].forEach(function(t) {
+  	var tmp = t["time"].split(":")
+        var h = +tmp[0]; 
+        var m = tmp[1];
+        var entry = m + "/" + line
+
+	var p = res[h]
+ 	p.push(entry)
+      }) 
+    })
+  // TODO: sort times
+  // console.info(res)       
+  return res;
+}
+
+function get_html(tables) {
+  var html = ""
+  Object.keys(tables).forEach(function(time) {
+    html += "<tr><td>" + time + "</td>" 
+    html += "<td><ul class='stop'>" 
+    
+    // TODO - sort times
+    tables[time].forEach(function(line) {
+       html += "<li class='stop'>" + line + "</li>"
+    })
+    html += "</ul></td></tr>"
+  })
+  
+  return html;
+}
+`
 
 setContent = () -> 
-  $("#stop-query-content-rows").html("<tr><td>8</td><td> </td></tr><tr><td>9</td><td><ul class='stop-hour-times'><li>8</li><li>9</li><li>10</li><li>11</li></ul></td></tr>")
+  $("#stop-query-content-rows").html(get_html(convert(jaba)))
 
 $(document).bind "pagebeforechange", (e, data) ->
     if typeof data.toPage != "string"
