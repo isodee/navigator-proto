@@ -18,7 +18,7 @@ $(document).bind "mobileinit", ->
     $.mobile.defaultHomeScroll = 0
 
     # init offline routing module if available
-    window.citynavi.reach = reach?.Api.init()
+ #    window.citynavi.reach = reach?.Api.init()
 
     # non-native inputs don't work in leaflet
     $.mobile.page.prototype.options.keepNative = "form input"

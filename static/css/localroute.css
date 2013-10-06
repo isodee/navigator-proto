@@ -12,9 +12,11 @@
   white-space:nowrap; 
   height: 1em;
   width: 100%;
+  margin-right: 3px; 
 } 
 
-.stop-hour-times li
+.stop li
 { 
+  margin-left: 3px;
   display:inline; 
 } 

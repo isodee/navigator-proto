@@ -10,15 +10,7 @@ class LocalRouteUI
 window.set_selected_stop = LocalRouteUI.set_selected_stop
  
 `
-var jaba = [  
-  { "110":  [ 
-   {  "time":  "10:23" },
-   {  "time":  "10:24" },
-   {  "time":  "10:25" } ] },
-  { "112":  [
-   { "time":  "11:25" }
-   ] }
-  ];
+localTimetableInit("todo"); // Uses saturday 05.10 always.
 
 // parse format from:
 //
@@ -44,29 +36,36 @@ if(!Object.keys) Object.keys = function(o){
      return ret;
 }
 
+
 function convert(timetable, optFilters) {
   var list = [];
-  
-  // TODO: first filter only wanted lines  
 
+  // TODO: first filter only wanted lines  
   var res = {}
-  for(i = 0; i<24; i++) {
+  for(i = 0; i<30; i++) {
     res[i] = []
   }
   
-  timetable.forEach(function(tt) {
-      var line = Object.keys(tt)[0]
-      tt[line].forEach(function(t) {
-  	var tmp = t["time"].split(":")
+  //timetable.forEach(function(tt) {
+  for (var route in timetable) {
+      //var line = Object.keys(tt)[0]
+     
+      var line = timetable[route]
+      line.forEach(function(t) {
+        var tmp = t["time"].split(":")
         var h = +tmp[0]; 
         var m = tmp[1];
-        var entry = m + "/" + line
+        var entry = m + "/" + "<b>" + route + "</b>"
 
-	var p = res[h]
- 	p.push(entry)
+        var p = res[h]
+   	p.push(entry)
       }) 
-    })
+  }
   // TODO: sort times
+  for(i=0; i<30; i++) { 
+   res[i] = res[i].sort()
+  }
+
   // console.info(res)       
   return res;
 }
@@ -77,7 +76,6 @@ function get_html(tables) {
     html += "<tr><td>" + time + "</td>" 
     html += "<td><ul class='stop'>" 
     
-    // TODO - sort times
     tables[time].forEach(function(line) {
        html += "<li class='stop'>" + line + "</li>"
     })
@@ -89,7 +87,10 @@ function get_html(tables) {
 `
 
 setContent = () -> 
-  $("#stop-query-content-rows").html(get_html(convert(jaba)))
+  stops = getStopById(citynavi.recent_stop)
+  arrivals = getArrivalsByTrip(stops)
+  console.log(arrivals)
+  $("#stop-query-content-rows").html(get_html(convert(arrivals)))
 
 $(document).bind "pagebeforechange", (e, data) ->
     if typeof data.toPage != "string"
